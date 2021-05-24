@@ -15,6 +15,7 @@ namespace ConsolePersonalIfo
 
             string name;
             string surname;
+            string strAge;
 
             do
             {
@@ -45,6 +46,39 @@ namespace ConsolePersonalIfo
             {
                 Console.WriteLine($"Hello {name} {surname}! Enjoy your stay.");
             }
+
+            Console.WriteLine("Enter your date of birth in yyyy/MM/dd format to calculate age:");
+            strAge = DateTime.ParseExact(Console.ReadLine(), "yyyy/MM/dd", null).ToString("yyyy/MM/dd");
+            DateTime toCalcAge = DateTime.Parse(strAge);
+
+            string calculateAge(DateTime inputDate)
+            {
+                DateTime todaysDate = DateTime.Today;
+                int months = todaysDate.Month - inputDate.Month;
+                int years = todaysDate.Year - inputDate.Year;
+                if (todaysDate.Day < inputDate.Day)
+                {
+                    months--;
+                }
+
+                if (months < 0)
+                {
+                    years--;
+                    months += 12;
+                }
+
+                int days = (todaysDate - inputDate.AddMonths((years * 12) + months)).Days;
+
+                return string.Format("{0} year{1}, {2} month{3} and {4} day{5}",
+                         years, (years == 1) ? "" : "s",
+                         months, (months == 1) ? "" : "s",
+                         days, (days == 1) ? "" : "s");
+            }
+
+            Console.WriteLine(calculateAge(toCalcAge));
+
+
+
         }
     }
 }
